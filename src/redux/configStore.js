@@ -5,7 +5,7 @@ import LoadingReducer from "./reducers/LoadingReducer";
 
 // Middleware saga
 import createSagaMiddleware from "@redux-saga/core";
-import { rootSaga } from "./sagas/rootSaga";
+import { rootSaga } from "./saga/rootSaga";
 const middleWareSaga = createSagaMiddleware();
 
 const rootReducer = combineReducers({
