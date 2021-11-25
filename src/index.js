@@ -1,20 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
 // Setup Redux
-import { Provider } from 'react-redux';
-import store from './redux/configStore';
+import { Provider } from "react-redux";
+import store from "./redux/configStore";
 
 // Antd Design CSS
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
-  <Provider store={store} >
-    <App />
-  </Provider>,
-  document.getElementById('root')
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
+
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
