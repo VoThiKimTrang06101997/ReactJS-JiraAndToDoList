@@ -8,6 +8,7 @@ import createSagaMiddleware from "@redux-saga/core";
 import { rootSaga } from "./saga/rootSaga";
 import { HistoryReducer } from "./reducers/HistoryReducer";
 import { UserLoginCyberBugsReducer } from "./reducers/UserCyberBugsReducer";
+import { ProjectCategoryReducer } from "./reducers/ProjectCategoryReducer";
 const middleWareSaga = createSagaMiddleware();
 
 const rootReducer = combineReducers({
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     ToDoListReducer,
     LoadingReducer,
     HistoryReducer,
-    UserLoginCyberBugsReducer
+    UserLoginCyberBugsReducer,
+    ProjectCategoryReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(reduxThunk, middleWareSaga));

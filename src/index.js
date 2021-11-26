@@ -9,14 +9,15 @@ import store from "./redux/configStore";
 
 // Antd Design CSS
 import "antd/dist/antd.css";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
+import { history } from "./util/libs/history";
 
 ReactDOM.render(
-  <BrowserRouter>
+  <Router history={history}>
     <Provider store={store}>
       <App />
     </Provider>
-  </BrowserRouter>,
+  </Router>,
 
   document.getElementById("root")
 );

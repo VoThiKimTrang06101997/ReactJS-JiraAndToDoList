@@ -18,6 +18,9 @@ import LoadingComponent from "./components/GlobalSetting/LoadingComponent/Loadin
 import { UserLoginTemplate } from "./templates/HomeTemplate/UserLoginTemplate";
 import LoginCyberBugs from "./pages/CyberBugs/LoginCyberBugs/LoginCyberBugs";
 import { useDispatch } from "react-redux";
+import { CyberbugsTemplate } from "./templates/HomeTemplate/CyberbugsTemplate";
+import indexCyberBugs from "./redux/saga/CyberBugs/indexCyberBugs";
+import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
 
 
 function App() {
@@ -47,7 +50,10 @@ function App() {
         <HomeTemplate exact path="/todolistrcc" Component={TodolistRCC} />
         <HomeTemplate exact path="/todolistredux" Component={ToDoListRedux} />
         <HomeTemplate exact path="/todolistsaga" Component={BaiTapToDoListSaga} />
+        <CyberbugsTemplate exact path="/cyberbugs" Component={indexCyberBugs}/>
+        <CyberbugsTemplate exact path="/createproject" Component={CreateProject}/>
 
+        <HomeTemplate exact path="/" Component={Home}/>
         <HomeTemplate path="*" component={PageNotFound} />
        
       </Switch>

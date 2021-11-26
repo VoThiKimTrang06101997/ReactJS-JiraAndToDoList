@@ -3,6 +3,7 @@ import * as ToDoListSaga from "./ToDoListSaga";
 // import { theoDoiActionGetTaskApi } from "./ToDoListSaga";
 
 import * as Cyberbugs from "./CyberBugs/UserCyberbugsSaga";
+import * as ProjectCategorySaga from "./CyberBugs/ProjectCategorySaga";
 
 export function* rootSaga() {
  
@@ -15,6 +16,7 @@ export function* rootSaga() {
     ToDoListSaga.theoDoiActionRejectTaskApi(),
 
     // Nghiệp vụ Cyberbugs
-    Cyberbugs.theoDoiSignIn()
+    Cyberbugs.theoDoiSignIn(),
+    ProjectCategorySaga.theoDoiGetAllProjectCategory()
   ])
 }
