@@ -1,15 +1,18 @@
 import { GET_ALL_PROJECT_CATEGORY } from "../constants/CyberBugs/Cyberbugs";
 
 const stateDefault = {
-    arrProjectCategory: []
-}
+  arrProjectCategory: [],
+};
 
 export const ProjectCategoryReducer = (state = stateDefault, action) => {
-    switch(action.type) {
-        case GET_ALL_PROJECT_CATEGORY: {
-            state.arrProjectCategory = action.data;
-            return {...state}
-        }
-        default: return {...state}
+  switch (action.type) {
+    case GET_ALL_PROJECT_CATEGORY: {
+      state.arrProjectCategory = action.data;
+      return { ...state };
     }
-}
+    default:
+      return { ...state };
+  }
+};
+
+

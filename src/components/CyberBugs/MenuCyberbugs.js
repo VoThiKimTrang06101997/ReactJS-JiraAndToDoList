@@ -19,10 +19,17 @@ export default function MenuCyberbugs() {
           <i className="fa fa-credit-card mr-1" />
           <NavLink className="text-dark" activeStyle={{color: "blue"}} to="/cyberbugs" activeClassName="active font-weight-bold text-primary">Cyber Board</NavLink>
         </div>
+
+        <div>
+          <i className="fa fa-credit-card mr-1" />
+          <NavLink className="text-dark" activeStyle={{color: "blue"}} to="/projectmanagement" activeClassName="active font-weight-bold text-primary">Project Management</NavLink>
+        </div>
+
         <div>
           <i className="fa fa-cog mr-1" />
           <NavLink className="text-dark" activeStyle={{color: "blue"}} to="/createproject" activeClassName="active font-weight-bold text-primary">Create Project</NavLink>
         </div>
+
       </div>
       <div className="feature">
         <div>

@@ -21,6 +21,7 @@ import { useDispatch } from "react-redux";
 import { CyberbugsTemplate } from "./templates/HomeTemplate/CyberbugsTemplate";
 import indexCyberBugs from "./redux/saga/CyberBugs/indexCyberBugs";
 import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
+import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManagement";
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
         <HomeTemplate exact path="/todolistsaga" Component={BaiTapToDoListSaga} />
         <CyberbugsTemplate exact path="/cyberbugs" Component={indexCyberBugs}/>
         <CyberbugsTemplate exact path="/createproject" Component={CreateProject}/>
+        <CyberbugsTemplate exact path="/projectmanagement" Component={ProjectManagement}/>
 
         <HomeTemplate exact path="/" Component={Home}/>
         <HomeTemplate path="*" component={PageNotFound} />

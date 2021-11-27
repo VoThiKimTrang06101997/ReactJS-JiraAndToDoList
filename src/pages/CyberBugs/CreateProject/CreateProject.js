@@ -6,21 +6,33 @@ import { connect, useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 function CreateProject(props) {
-   const arrProjectCategory = useSelector(state => state.ProjectCategoryReducer.arrProjectCategory);
-   const dispatch = useDispatch();
+  const arrProjectCategory = useSelector(
+    (state) => state.ProjectCategoryReducer.arrProjectCategory
+  );
+  const dispatch = useDispatch();
 
-   console.log("Kết quả:", arrProjectCategory)
+  console.log("Kết quả:", arrProjectCategory);
 
-  const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+  const {
+    values,
+    touched,
+    errors,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+  } = props;
 
   useEffect(() => {
-      // Gọi API để lấy dữ liệu thẻ select
-      dispatch({
-          type: "GET_ALL_PROJECT_CATEGORY_SAGA"
-      })
-  }, [])
+    // Gọi API để lấy dữ liệu thẻ select
+    dispatch({
+      type: "GET_ALL_PROJECT_CATEGORY_SAGA",
+    });
+  }, []);
 
-  const handleEditorChange = (content, editor) => {};
+  const handleEditorChange = (content, editor) => {
+    setFieldValue("description", content);
+  };
 
   return (
     <div className="container mt-5">
@@ -30,7 +42,11 @@ function CreateProject(props) {
       <form className="container" onSubmit={handleSubmit}>
         <div className="form-group">
           <p className="font-weight-bold">Name</p>
-          <input className="form-control" name="projectName" />
+          <input
+            className="form-control"
+            name="projectName"
+            onChange={handleChange}
+          />
         </div>
 
         <div className="form-group">
@@ -59,10 +75,18 @@ function CreateProject(props) {
         </div>
 
         <div className="form-group">
-          <select name="categoryId" className="form-control" onChange={handleChange}>
-           {arrProjectCategory.map((item, index) => {
-               return <option value={item.id} key={index}>{item.projectCategoryName}</option>
-           })}
+          <select
+            name="categoryId"
+            className="form-control"
+            onChange={handleChange}
+          >
+            {arrProjectCategory.map((item, index) => {
+              return (
+                <option value={item.id} key={index}>
+                  {item.projectCategoryName}
+                </option>
+              );
+            })}
           </select>
         </div>
 
@@ -75,15 +99,30 @@ function CreateProject(props) {
 }
 
 const CreateProjectWithFormik = withFormik({
-  mapPropsToValues: () => ({}),
+  enableReinitialize: true,
+  mapPropsToValues: (props) => {
+    console.log("propsvalue", props);
+    return {
+      projectName: "",
+      description: "",
+      categoryId: props.arrProjectCategory[0]?.id,
+    };
+  },
 
   validationSchema: Yup.object().shape({}),
 
   handleSubmit: (values, { props, setSubmitting }) => {
-    console.log(values);
+    props.dispatch({ type: "CREATE_PROJECT_SAGA", newProject: values });
   },
 
   displayName: "CreateProjectFormik",
 })(CreateProject);
 
-export default connect()(CreateProjectWithFormik);
+const mapStateToProps = (state) => ({
+  arrProjectCategory: state.ProjectCategoryReducer.arrProjectCategory,
+});
+
+export default connect(mapStateToProps)(CreateProjectWithFormik);
+
+
+

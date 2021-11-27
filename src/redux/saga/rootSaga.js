@@ -4,6 +4,9 @@ import * as ToDoListSaga from "./ToDoListSaga";
 
 import * as Cyberbugs from "./CyberBugs/UserCyberbugsSaga";
 import * as ProjectCategorySaga from "./CyberBugs/ProjectCategorySaga";
+import * as ProjectSaga from "./CyberBugs/ProjectSaga";
+import { theoDoiCreateProjectSaga } from "./CyberBugs/ProjectSaga";
+
 
 export function* rootSaga() {
  
@@ -17,6 +20,7 @@ export function* rootSaga() {
 
     // Nghiệp vụ Cyberbugs
     Cyberbugs.theoDoiSignIn(),
-    ProjectCategorySaga.theoDoiGetAllProjectCategory()
+    ProjectCategorySaga.theoDoiGetAllProjectCategory(),
+    ProjectSaga.theoDoiCreateProjectSaga()
   ])
 }
