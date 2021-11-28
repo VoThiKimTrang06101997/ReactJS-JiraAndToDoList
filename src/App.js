@@ -22,6 +22,8 @@ import { CyberbugsTemplate } from "./templates/HomeTemplate/CyberbugsTemplate";
 import indexCyberBugs from "./redux/saga/CyberBugs/indexCyberBugs";
 import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
 import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManagement";
+import DrawerCyberbugs from "./HOC/CyberbugsHOC/DrawerCyberbugs";
+
 
 
 function App() {
@@ -39,6 +41,7 @@ function App() {
     <>
       {/* <Header/> */}
       <LoadingComponent/>
+      <DrawerCyberbugs/>
       
       <Switch>
         <HomeTemplate exact path="/home" Component={Home}/>

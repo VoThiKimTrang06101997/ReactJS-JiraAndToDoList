@@ -21,6 +21,8 @@ export function* rootSaga() {
     // Nghiệp vụ Cyberbugs
     Cyberbugs.theoDoiSignIn(),
     ProjectCategorySaga.theoDoiGetAllProjectCategory(),
-    ProjectSaga.theoDoiCreateProjectSaga()
+    ProjectSaga.theoDoiCreateProjectSaga(),
+    ProjectSaga.theoDoiGetListProjectSaga()
   ])
 }
+

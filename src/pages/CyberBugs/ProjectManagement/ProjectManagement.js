@@ -1,41 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Input, Button, Space } from "antd";
 import ReactHtmlParser from "react-html-parser";
 import HtmlParser from "react-html-parser";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-
-const data = [
-  {
-    id: 1,
-    projectName: "Web Jira",
-    description: "Web quản lý Task dự án",
-    categoryId: 1,
-    alias: "web-Jira",
-    deleted: false,
-  },
-  {
-    id: 2,
-    projectName: "App Jira",
-    description: "App quản lý Task dự án",
-    categoryId: 3,
-    alias: "app-Jira",
-    deleted: false,
-  },
-  {
-    id: 3,
-    projectName: "Phần mềm Jira",
-    description: "Phần mềm quản lý công việc",
-    categoryId: 2,
-    alias: "phan-mem-Jira",
-    deleted: false,
-  },
-];
+import { useSelector, useDispatch } from "react-redux";
+import { Tag, Divider } from "antd";
+import FormEditProject from "../../../components/Forms/FormEditProject/FormEditProject";
 
 export default function ProjectManagement(props) {
+  // Lấy dữ liệu từ Reducer về Components
+  const projectList = useSelector(
+    (state) => state.ProjecCyberBugstReducer.projectList
+  );
+  // Sử dụng useDispatch để gọi action
+  const dispatch = useDispatch();
+
   const [state, setState] = useState({
     filteredInfo: null,
     sortedInfo: null,
   });
+
+  useEffect(() => {
+    dispatch({ type: "GET_LIST_PROJECT_SAGA" });
+  }, []);
 
   const handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -74,11 +61,23 @@ export default function ProjectManagement(props) {
       title: "id",
       dataIndex: "id",
       key: "id",
+      sorter: (item2, item1) => {
+        return item2.id - item1.id;
+      },
+      sortDirections: ["descend"],
     },
     {
       title: "Project Name",
       dataIndex: "projectName",
       key: "projectName",
+      sorter: (item2, item1) => {
+        let projectName1 = item1.projectName?.trim().toLowerCase();
+        let projectName2 = item2.projectName?.trim().toLowerCase();
+        if (projectName2 < projectName1) {
+          return -1;
+        }
+        return 1;
+      },
     },
     {
       title: "Description",
@@ -88,6 +87,43 @@ export default function ProjectManagement(props) {
         let jsxContent = ReactHtmlParser(text);
         return <div key={index}>{jsxContent}</div>;
       },
+      sorter: (item2, item1) => {
+        let description1 = item1.description?.trim().toLowerCase();
+        let description2 = item2.description?.trim().toLowerCase();
+        if (description2 < description1) {
+          return -1;
+        }
+        return 1;
+      },
+    },
+    {
+      title: "Category",
+      dataIndex: "categoryName",
+      key: "categoryName",
+      sorter: (item2, item1) => {
+        let categoryName1 = item1.categoryName?.trim().toLowerCase();
+        let categoryName2 = item2.categoryName?.trim().toLowerCase();
+        if (categoryName2 < categoryName1) {
+          return -1;
+        }
+        return 1;
+      },
+    },
+    {
+      title: "Creator",
+      // dataIndex: "creator",
+      key: "creator",
+      render: (text, record, index) => {
+        return <Tag color="green">{record.creator?.name}</Tag>;
+      },
+      sorter: (item2, item1) => {
+        let creator1 = item1.creator?.name.trim().toLowerCase();
+        let creator2 = item2.creator?.name.trim().toLowerCase();
+        if (creator2 < creator1) {
+          return -1;
+        }
+        return 1;
+      },
     },
 
     {
@@ -95,18 +131,27 @@ export default function ProjectManagement(props) {
       key: "action",
       render: (text, record, index) => (
         <Space size="middle">
-          <a onClick={() => {
-              
-          }}><EditOutlined/></a>
-          <a><DeleteOutlined/></a>
+          <button className="btn btn-primary" onClick={() => {
+             const action = {
+              type: "OPEN_FORM_EDIT_PROJECT",
+              Component: <FormEditProject/>,
+            }
+             // Dispatch lên Reducer nội dung
+             dispatch(action)
+          }}>
+            <EditOutlined style={{ fontSize: 17 }} />
+          </button>
+          <button className="btn btn-danger">
+            <DeleteOutlined style={{ fontSize: 17 }} />
+          </button>
         </Space>
       ),
     },
   ];
 
   return (
-    <div className="container-fluid mt-5">
-      <h3>Project Management</h3>
+    <div className="container-fluid mt-2">
+      <h3 style={{color: "blue"}}>Project Management</h3>
       <Space style={{ marginBottom: 16 }}>
         <Button onClick={setAgeSort}>Sort age</Button>
         <Button onClick={clearFilters}>Clear filters</Button>
@@ -115,7 +160,7 @@ export default function ProjectManagement(props) {
       <Table
         columns={columns}
         rowKey={"id"}
-        dataSource={data}
+        dataSource={projectList}
         onChange={handleChange}
       />
     </div>

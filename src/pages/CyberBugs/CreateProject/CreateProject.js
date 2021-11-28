@@ -9,6 +9,7 @@ function CreateProject(props) {
   const arrProjectCategory = useSelector(
     (state) => state.ProjectCategoryReducer.arrProjectCategory
   );
+  
   const dispatch = useDispatch();
 
   console.log("Kết quả:", arrProjectCategory);
