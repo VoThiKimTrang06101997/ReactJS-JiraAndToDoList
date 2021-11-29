@@ -22,7 +22,9 @@ export function* rootSaga() {
     Cyberbugs.theoDoiSignIn(),
     ProjectCategorySaga.theoDoiGetAllProjectCategory(),
     ProjectSaga.theoDoiCreateProjectSaga(),
-    ProjectSaga.theoDoiGetListProjectSaga()
+    ProjectSaga.theoDoiGetListProjectSaga(),
+    ProjectSaga.theoDoiUpdateProjectSaga(),
+    ProjectSaga.theoDoiDeleteProjectSaga()
   ])
 }
 

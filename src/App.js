@@ -25,7 +25,6 @@ import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManage
 import DrawerCyberbugs from "./HOC/CyberbugsHOC/DrawerCyberbugs";
 
 
-
 function App() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -42,6 +41,7 @@ function App() {
       {/* <Header/> */}
       <LoadingComponent/>
       <DrawerCyberbugs/>
+      
       
       <Switch>
         <HomeTemplate exact path="/home" Component={Home}/>

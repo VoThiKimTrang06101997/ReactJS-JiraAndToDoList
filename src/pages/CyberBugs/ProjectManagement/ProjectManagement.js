@@ -6,6 +6,8 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { Tag, Divider } from "antd";
 import FormEditProject from "../../../components/Forms/FormEditProject/FormEditProject";
+import { Popconfirm, message } from "antd";
+
 
 export default function ProjectManagement(props) {
   // Lấy dữ liệu từ Reducer về Components
@@ -131,19 +133,38 @@ export default function ProjectManagement(props) {
       key: "action",
       render: (text, record, index) => (
         <Space size="middle">
-          <button className="btn btn-primary" onClick={() => {
-             const action = {
-              type: "OPEN_FORM_EDIT_PROJECT",
-              Component: <FormEditProject/>,
-            }
-             // Dispatch lên Reducer nội dung
-             dispatch(action)
-          }}>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              const action = {
+                type: "OPEN_FORM_EDIT_PROJECT",
+                Component: <FormEditProject />,
+              };
+              // Dispatch lên Reducer nội dung Drawer
+              dispatch(action);
+              // Dispatch dữ liệu dòng hiện tại lên Reducer
+              const actionEditProject = {
+                type: "EDIT_PROJECT",
+                projectEditModel: record,
+              };
+              dispatch(actionEditProject);
+            }}
+          >
             <EditOutlined style={{ fontSize: 17 }} />
           </button>
-          <button className="btn btn-danger">
-            <DeleteOutlined style={{ fontSize: 17 }} />
-          </button>
+          <Popconfirm
+            title="Are you sure to delete this project?"
+            onConfirm={() => {
+              dispatch({ type: "DELETE_PROJECT_SAGA", idProject: record.id });
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <button className="btn btn-danger">
+              <DeleteOutlined style={{ fontSize: 17 }} />
+            </button>
+          </Popconfirm>
+          ,
         </Space>
       ),
     },
@@ -151,7 +172,7 @@ export default function ProjectManagement(props) {
 
   return (
     <div className="container-fluid mt-2">
-      <h3 style={{color: "blue"}}>Project Management</h3>
+      <h3 style={{ color: "blue" }}>Project Management</h3>
       <Space style={{ marginBottom: 16 }}>
         <Button onClick={setAgeSort}>Sort age</Button>
         <Button onClick={clearFilters}>Clear filters</Button>

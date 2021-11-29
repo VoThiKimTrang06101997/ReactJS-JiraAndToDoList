@@ -21,10 +21,10 @@ function FormEditProject(props) {
 
   const dispatch = useDispatch();
 
-//   const submitForm = (e) => {
-//     e.preventDefault();
-//     alert("Submit Edit");
-//   };
+  //   const submitForm = (e) => {
+  //     e.preventDefault();
+  //     alert("Submit Edit");
+  //   };
 
   // ComponentDidMount
   useEffect(() => {
@@ -71,10 +71,18 @@ function FormEditProject(props) {
         <div className="col-4">
           <div className="form-group">
             <p className="font-weight-bold">Project Category</p>
-            <select className="form-control" name="categoryId" value={values.categoryId}>
-                {arrProjectCategory?.map((item, index) => {
-                  return <option key={index} value={item.id}>{item.projectCategoryName}</option>
-                })}
+            <select
+              className="form-control"
+              name="categoryId"
+              value={values.categoryId}
+            >
+              {arrProjectCategory?.map((item, index) => {
+                return (
+                  <option key={index} value={item.id}>
+                    {item.projectCategoryName}
+                  </option>
+                );
+              })}
             </select>
           </div>
         </div>
@@ -84,7 +92,8 @@ function FormEditProject(props) {
             <p className="font-weight-bold">Description</p>
             <Editor
               name="description"
-              initialValue={values.categoryId}
+              // initialValue={values.description}
+              value={values.description}
               init={{
                 selector: "textarea#myTextArea",
                 height: 500,
@@ -126,7 +135,16 @@ const editProjectForm = withFormik({
   validationSchema: Yup.object().shape({}),
 
   handleSubmit: (values, { props, setSubmitting }) => {
-    console.log("values", values);
+    // Khi người dùng bấm Submit => đưa dữ liệu người dùng về Backend thông qua API
+    // const action = {
+    //   type: "UPDATE_PROJECT_SAGA",
+    //   projectUpdate: values
+    // }
+    // Gọi Saga
+    props.dispatch({
+      type: "UPDATE_PROJECT_SAGA",
+      projectUpdate: values,
+    });
   },
 
   displayName: "editProjectForm",

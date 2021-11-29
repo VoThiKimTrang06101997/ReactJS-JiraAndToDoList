@@ -37,5 +37,16 @@ export const cyberbugsService = {
       // Token yêu cầu từ BackEnd chứng minh User đã đăng nhập rồi
       headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) }, // JWT
     })
+  },
+  updateProject: (projectUpdate) => {
+    return Axios({
+      url: `${DOMAIN_CYBERBUG}/Project/updateProject?projectId=${projectUpdate.id}`,
+      method: "PUT",
+      data: projectUpdate,
+      // Token yêu cầu từ BackEnd chứng minh User đã đăng nhập rồi
+      headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) }, // JWT
+    })
   }
 };
+
+
