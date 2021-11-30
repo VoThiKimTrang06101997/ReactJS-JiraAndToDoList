@@ -1,19 +1,37 @@
-import React, { useState, useEffect } from "react";
-import { Table, Input, Button, Space } from "antd";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Table,
+  Input,
+  Button,
+  Space,
+  Avatar,
+  Image,
+  Popover,
+  AutoComplete,
+} from "antd";
 import ReactHtmlParser from "react-html-parser";
 import HtmlParser from "react-html-parser";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { Tag, Divider } from "antd";
 import FormEditProject from "../../../components/Forms/FormEditProject/FormEditProject";
 import { Popconfirm, message } from "antd";
-
+import { NavLink } from "react-router-dom";
 
 export default function ProjectManagement(props) {
   // Lấy dữ liệu từ Reducer về Components
   const projectList = useSelector(
     (state) => state.ProjecCyberBugstReducer.projectList
   );
+
+  const { userSearch } = useSelector(
+    (state) => state.UserLoginCyberBugsReducer
+  );
+
+  const [value, setValue] = useState("");
+
+  const searchRef = useRef(null);
+
   // Sử dụng useDispatch để gọi action
   const dispatch = useDispatch();
 
@@ -72,6 +90,9 @@ export default function ProjectManagement(props) {
       title: "Project Name",
       dataIndex: "projectName",
       key: "projectName",
+      render: (text, record, index) => {
+        return <NavLink to={`/projectdetail/${record.id}`}>{text}</NavLink>
+      },
       sorter: (item2, item1) => {
         let projectName1 = item1.projectName?.trim().toLowerCase();
         let projectName2 = item2.projectName?.trim().toLowerCase();
@@ -111,6 +132,7 @@ export default function ProjectManagement(props) {
         return 1;
       },
     },
+
     {
       title: "Creator",
       // dataIndex: "creator",
@@ -125,6 +147,102 @@ export default function ProjectManagement(props) {
           return -1;
         }
         return 1;
+      },
+    },
+
+    {
+      title: "Members",
+      key: "members",
+      render: (text, record, index) => {
+        return (
+          <div>
+            {record.members?.slice(0, 3).map((member, index) => {
+              return (
+                <Popover key={index} placement="top" title={"Member"} content={() => {
+                  return <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Avatar</th>
+                        <th>Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {record.members?.map((item, index) => {
+                        return <tr key={index}>
+                          <td>{item.userId}</td>
+                          <td> <img src={item.avatar} width="30" height="30" style={{borderRadius: "50%"}} alt=""/></td>
+                          <td>
+                            <button onClick={() => {
+                              dispatch({
+                                type: "REMOVE_USER_PROJECT_API",
+                                userProject: {
+                                  userId: item.userId,
+                                  projectId: record.id
+                                }
+                              })
+                            }} className="btn btn-danger" style={{borderRadius: "50%"}}>X</button>
+                          </td>
+                        </tr>
+                      })}
+                    </tbody>
+                  </table>
+                }} >
+                  <Avatar key={index} src={member.avatar} />;
+                </Popover>
+              );
+            })}
+            {record.members?.length > 3 ? <Avatar>...</Avatar> : ""}
+
+            <Popover
+              placement="rightTop"
+              title={"Add User"}
+              content={() => {
+                return (
+                  <AutoComplete
+                    options={userSearch?.map((user, index) => {
+                      return {
+                        label: user.name,
+                        value: user.userId.toString(),
+                      };
+                    })}
+                    value={value}
+                    onChange={(text) => {
+                      setValue(text);
+                    }}
+                    onSelect={(valueSelect, option) => {
+                      // Set Giá trị của hộp thoại = option.label
+                      setValue(option.label);
+                      // Gọi API gửi về Backend
+                      dispatch({
+                        type: "ADD_USER_PROJECT_API",
+                        userProject: {
+                          projectId: record.id,
+                          userId: valueSelect,
+                        },
+                      });
+                    }}
+                    style={{ width: "100%" }}
+                    onSearch={(value) => {
+                      if(searchRef.current) {
+                        clearTimeout(searchRef.current);
+                      }
+                      searchRef.current = setTimeout(() => {
+                        dispatch({
+                          type: "GET_USER_API",
+                          keyWord: value,
+                        });
+                      }, 300)
+                    }}
+                  />
+                );
+              }}
+              trigger="click"
+            >
+              <Button style={{ borderRadius: "50%" }}>+</Button>
+            </Popover>
+          </div>
+        );
       },
     },
 

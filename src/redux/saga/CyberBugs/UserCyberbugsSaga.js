@@ -1,6 +1,7 @@
 import Axios from "axios";
 import { fork, take, put, call, takeLatest, delay, select } from "redux-saga/effects";
 import { cyberbugsService } from "../../../services/CyberbugsService";
+import { userService } from "../../../services/UserService";
 import { TOKEN, USER_LOGIN } from "../../../util/constants/settingSystem";
 import { history } from "../../../util/libs/history";
 import { USER_SIGNIN_API, USLOGIN } from "../../constants/CyberBugs/Cyberbugs";
@@ -46,3 +47,72 @@ function* signinSaga(action) {
 export function* theoDoiSignIn() {
   yield takeLatest(USER_SIGNIN_API, signinSaga);
 }
+
+// Lấy thông tin members
+function* getUserSaga(action) {
+  // Gọi API
+  try {
+    const {data, status} = yield call (() => userService.getUser(action.keyWord)); 
+    console.log("data", data);
+
+    yield put ({
+      type: "GET_USER_SEARCH",
+      listUserSearch: data.content
+    })
+    
+
+  } catch (error) {
+    console.log(error.response.data);
+  }
+
+}
+export function* theoDoiGetUser() {
+  yield takeLatest("GET_USER_API", getUserSaga);
+}
+
+// Thêm người dùng vào Project
+function* addUserProjectSaga(action) {
+  // Gọi API
+  try {
+    const {data, status} = yield call (() => userService.assignUserProject(action.userProject)); 
+    // Lưu vào localstorage khi đăng nhập thành công
+    // localStorage.setItem(TOKEN, data.content.accessToken);
+    // localStorage.setItem(USER_LOGIN, JSON.stringify(data.content));
+
+    yield put ({
+      type: "GET_LIST_PROJECT_SAGA",
+      
+    })
+    
+  } catch (error) {
+    console.log(error.response.data);
+  }
+
+}
+export function* theoDoiAddUserProject() {
+  yield takeLatest("ADD_USER_PROJECT_API", addUserProjectSaga);
+}
+
+// Remove người dùng ra khỏi Project
+function* removeUserProjectSaga(action) {
+  // Gọi API
+  try {
+    const {data, status} = yield call (() => userService.deleteUserFromProject(action.userProject)); 
+    // Lưu vào localstorage khi đăng nhập thành công
+    // localStorage.setItem(TOKEN, data.content.accessToken);
+    // localStorage.setItem(USER_LOGIN, JSON.stringify(data.content));
+
+    yield put ({
+      type: "GET_LIST_PROJECT_SAGA",
+      
+    })
+    
+  } catch (error) {
+    console.log(error.response.data);
+  }
+
+}
+export function* theoDoiRemoveUserProject() {
+  yield takeLatest("REMOVE_USER_PROJECT_API", removeUserProjectSaga);
+}
+

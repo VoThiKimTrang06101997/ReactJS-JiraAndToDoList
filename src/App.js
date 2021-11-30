@@ -19,10 +19,10 @@ import { UserLoginTemplate } from "./templates/HomeTemplate/UserLoginTemplate";
 import LoginCyberBugs from "./pages/CyberBugs/LoginCyberBugs/LoginCyberBugs";
 import { useDispatch } from "react-redux";
 import { CyberbugsTemplate } from "./templates/HomeTemplate/CyberbugsTemplate";
-import indexCyberBugs from "./redux/saga/CyberBugs/indexCyberBugs";
 import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
 import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManagement";
 import DrawerCyberbugs from "./HOC/CyberbugsHOC/DrawerCyberbugs";
+import IndexCyberBugs from "./redux/saga/CyberBugs/indexCyberBugs";
 
 
 function App() {
@@ -54,11 +54,13 @@ function App() {
         <HomeTemplate exact path="/todolistrcc" Component={TodolistRCC} />
         <HomeTemplate exact path="/todolistredux" Component={ToDoListRedux} />
         <HomeTemplate exact path="/todolistsaga" Component={BaiTapToDoListSaga} />
-        <CyberbugsTemplate exact path="/cyberbugs" Component={indexCyberBugs}/>
+        <CyberbugsTemplate exact path="/cyberbugs" Component={IndexCyberBugs}/>
         <CyberbugsTemplate exact path="/createproject" Component={CreateProject}/>
         <CyberbugsTemplate exact path="/projectmanagement" Component={ProjectManagement}/>
+        <CyberbugsTemplate exact path="/projectdetail/:projectId" Component={IndexCyberBugs}/>
 
-        <HomeTemplate exact path="/" Component={Home}/>
+        {/* Trang chủ */}
+        <CyberbugsTemplate exact path="/" Component={ProjectManagement}/>
         <HomeTemplate path="*" component={PageNotFound} />
        
       </Switch>

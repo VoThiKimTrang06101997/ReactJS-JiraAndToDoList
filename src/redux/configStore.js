@@ -23,7 +23,8 @@ const rootReducer = combineReducers({
     ProjectCategoryReducer,
     ProjecCyberBugstReducer,
     drawerReducer,
-    ProjectReducer
+    ProjectReducer,
+    
 })
 
 const store = createStore(rootReducer, applyMiddleware(reduxThunk, middleWareSaga));

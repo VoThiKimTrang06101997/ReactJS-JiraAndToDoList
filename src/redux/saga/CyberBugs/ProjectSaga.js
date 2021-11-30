@@ -146,3 +146,39 @@ function* deleteProjectSaga(action) {
 export function* theoDoiDeleteProjectSaga() {
   yield takeLatest("DELETE_PROJECT_SAGA", deleteProjectSaga);
 }
+
+// Get Project Detail
+function* getProjectDetailSaga(action) {
+  console.log("actionUpdateProject", action);
+  // Hiển thị Loading
+  yield put({
+    type: DISPLAY_LOADING,
+  });
+  yield delay(500);
+
+  try {
+    // Gọi API lấy dữ liệu về
+    const { data, status } = yield call(() =>
+      projectService.getProjectDetail(action.projectId)
+    );
+    console.log("data", data);
+    
+    // Lấy dữ liệu thành công thì đưa dữ liệu lên Redux
+    yield put({
+      type: "PUT_PROJECT_DETAIL",
+      projectDetail: data.content
+    })
+
+  } catch (error) {
+    // console.log("404 Not Found");
+    console.log(error)
+    history.push("/projectmanagement")
+  }
+  yield put({
+    type: HIDE_LOADING,
+  });
+}
+
+export function* theoDoiGetProjectDetail() {
+  yield takeLatest("GET_PROJECT_DETAIL", getProjectDetailSaga);
+}

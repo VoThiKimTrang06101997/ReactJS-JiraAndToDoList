@@ -9,7 +9,8 @@ if(localStorage.getItem(USER_LOGIN)) {
 
 
 const stateDefault = {
-    userLogin : UserLogin
+    userLogin : UserLogin,
+    userSearch: []
 }
 
 export const UserLoginCyberBugsReducer = (state = stateDefault, action) => {
@@ -18,6 +19,11 @@ export const UserLoginCyberBugsReducer = (state = stateDefault, action) => {
             state.userLogin = action.userLogin;
             return {...state}
         }
+        case "GET_USER_SEARCH": {
+            state.userSearch = action.listUserSearch;
+            return {...state}
+        }
         default: return {...state}
     }
 }
+
