@@ -5,6 +5,8 @@ import * as ToDoListSaga from "./ToDoListSaga";
 import * as Cyberbugs from "./CyberBugs/UserCyberbugsSaga";
 import * as ProjectCategorySaga from "./CyberBugs/ProjectCategorySaga";
 import * as ProjectSaga from "./CyberBugs/ProjectSaga";
+import * as TaskTypeSaga from "./CyberBugs/TaskTypeSaga";
+import * as PrioritySaga from "./CyberBugs/PrioritySaga"
 import { theoDoiCreateProjectSaga } from "./CyberBugs/ProjectSaga";
 
 
@@ -29,7 +31,11 @@ export function* rootSaga() {
     ProjectSaga.theoDoiGetListProjectSaga(),
     ProjectSaga.theoDoiUpdateProjectSaga(),
     ProjectSaga.theoDoiDeleteProjectSaga(),
-    ProjectSaga.theoDoiGetProjectDetail()
+    ProjectSaga.theoDoiGetProjectDetail(),
+    ProjectSaga.theoDoiGetAllProjectSaga(),
+
+    TaskTypeSaga.theoDoiGetAllTaskTypeSaga(),
+    PrioritySaga.theoDoiGetAllPrioritySaga()
   ])
 }
 

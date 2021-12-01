@@ -10,8 +10,11 @@ import {
   AutoComplete,
 } from "antd";
 import ReactHtmlParser from "react-html-parser";
-import HtmlParser from "react-html-parser";
-import { EditOutlined, DeleteOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  CloseSquareOutlined,
+} from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { Tag, Divider } from "antd";
 import FormEditProject from "../../../components/Forms/FormEditProject/FormEditProject";
@@ -91,7 +94,7 @@ export default function ProjectManagement(props) {
       dataIndex: "projectName",
       key: "projectName",
       render: (text, record, index) => {
-        return <NavLink to={`/projectdetail/${record.id}`}>{text}</NavLink>
+        return <NavLink to={`/projectdetail/${record.id}`}>{text}</NavLink>;
       },
       sorter: (item2, item1) => {
         let projectName1 = item1.projectName?.trim().toLowerCase();
@@ -158,36 +161,60 @@ export default function ProjectManagement(props) {
           <div>
             {record.members?.slice(0, 3).map((member, index) => {
               return (
-                <Popover key={index} placement="top" title={"Member"} content={() => {
-                  return <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Id</th>
-                        <th>Avatar</th>
-                        <th>Name</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {record.members?.map((item, index) => {
-                        return <tr key={index}>
-                          <td>{item.userId}</td>
-                          <td> <img src={item.avatar} width="30" height="30" style={{borderRadius: "50%"}} alt=""/></td>
-                          <td>
-                            <button onClick={() => {
-                              dispatch({
-                                type: "REMOVE_USER_PROJECT_API",
-                                userProject: {
-                                  userId: item.userId,
-                                  projectId: record.id
-                                }
-                              })
-                            }} className="btn btn-danger" style={{borderRadius: "50%"}}>X</button>
-                          </td>
-                        </tr>
-                      })}
-                    </tbody>
-                  </table>
-                }} >
+                <Popover
+                  key={index}
+                  placement="top"
+                  title={"Member"}
+                  content={() => {
+                    return (
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>Id</th>
+                            <th>Avatar</th>
+                            <th>Name</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {record.members?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{item.userId}</td>
+                                <td>
+                                  {" "}
+                                  <img
+                                    src={item.avatar}
+                                    width="30"
+                                    height="30"
+                                    style={{ borderRadius: "50%" }}
+                                    alt=""
+                                  />
+                                </td>
+                                <td>
+                                  <button
+                                    onClick={() => {
+                                      dispatch({
+                                        type: "REMOVE_USER_PROJECT_API",
+                                        userProject: {
+                                          userId: item.userId,
+                                          projectId: record.id,
+                                        },
+                                      });
+                                    }}
+                                    className="btn btn-danger"
+                                    style={{ borderRadius: "50%" }}
+                                  >
+                                    X
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    );
+                  }}
+                >
                   <Avatar key={index} src={member.avatar} />;
                 </Popover>
               );
@@ -224,7 +251,7 @@ export default function ProjectManagement(props) {
                     }}
                     style={{ width: "100%" }}
                     onSearch={(value) => {
-                      if(searchRef.current) {
+                      if (searchRef.current) {
                         clearTimeout(searchRef.current);
                       }
                       searchRef.current = setTimeout(() => {
@@ -232,7 +259,7 @@ export default function ProjectManagement(props) {
                           type: "GET_USER_API",
                           keyWord: value,
                         });
-                      }, 300)
+                      }, 300);
                     }}
                   />
                 );
@@ -252,10 +279,11 @@ export default function ProjectManagement(props) {
       render: (text, record, index) => (
         <Space size="middle">
           <button
-            className="btn btn-primary"
+            className="btn mr-2 btn-primary"
             onClick={() => {
               const action = {
                 type: "OPEN_FORM_EDIT_PROJECT",
+                title: "Edit Project",
                 Component: <FormEditProject />,
               };
               // Dispatch lên Reducer nội dung Drawer

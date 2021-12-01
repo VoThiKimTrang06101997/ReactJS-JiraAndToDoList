@@ -2,6 +2,7 @@ import React from "react";
 
 const initialState = {
   visible: false,
+  title: "",
   ComponentContentDrawer: <p>Default Content</p>,
   callBackSubmit: (propsValue) => {alert("Click Demo !")}
 };
@@ -15,6 +16,7 @@ export const drawerReducer =  (state = initialState, action) => {
     case "OPEN_FORM_EDIT_PROJECT": {
         state.visible = true;
         state.ComponentContentDrawer = action.Component;
+        state.title = action.title;
         return {...state}
 
         // return {...state, visible: true, ComponentContentDrawer: action.Component}
@@ -22,6 +24,12 @@ export const drawerReducer =  (state = initialState, action) => {
     case "SET_SUBMIT_EDIT_PROJECT": {
         state.callBackSubmit = action.submitFunction;
         return {...state}
+    }
+    case "OPEN_FORM_CREATE_TASK":{
+      state.visible = true;
+      state.title = action.title;
+      state.ComponentContentDrawer = action.Component;
+      return {...state}
     }
     default:
       return state;

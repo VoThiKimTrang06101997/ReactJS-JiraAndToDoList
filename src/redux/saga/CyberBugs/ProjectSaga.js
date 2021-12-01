@@ -13,6 +13,7 @@ import { projectService } from "../../../services/ProjectService";
 import { STATUS_CODE } from "../../../util/constants/settingSystem";
 import { history } from "../../../util/libs/history";
 import { notifiFunction } from "../../../util/Notification/NotificationCyberbugs";
+import { GET_ALL_PROJECT, GET_ALL_PROJECT_SAGA } from "../../constants/CyberBugs/ProjectCyberBugsConstant";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../../constants/LoadingConst";
 
 // Create Project Saga
@@ -47,7 +48,7 @@ export function* theoDoiCreateProjectSaga() {
   yield takeLatest("CREATE_PROJECT_SAGA", createProjectSaga);
 }
 
-// Saga dùng để get all project từ API
+// Saga dùng để get all project từ API: Get List Project
 function* getListProjectSaga(action) {
   try {
     const {data, status} = yield call(() => cyberbugsService.getListProject());
@@ -181,4 +182,38 @@ function* getProjectDetailSaga(action) {
 
 export function* theoDoiGetProjectDetail() {
   yield takeLatest("GET_PROJECT_DETAIL", getProjectDetailSaga);
+}
+
+// Get All Project
+function* getAllProjectSaga(action) {
+  // Hiển thị Loading
+  yield put({
+    type: DISPLAY_LOADING,
+  });
+  yield delay(500);
+
+  try {
+    // Gọi API lấy dữ liệu về
+    const { data, status } = yield call(() =>
+      projectService.getAllProject()
+    );
+    
+    // Lấy dữ liệu thành công thì đưa dữ liệu lên Redux
+    yield put({
+      type: GET_ALL_PROJECT,
+      arrProject: data.content
+    })
+
+  } catch (error) {
+    // console.log("404 Not Found");
+    console.log(error)
+    history.push("/projectmanagement")
+  }
+  yield put({
+    type: HIDE_LOADING,
+  });
+}
+
+export function* theoDoiGetAllProjectSaga() {
+  yield takeLatest(GET_ALL_PROJECT_SAGA, getAllProjectSaga);
 }

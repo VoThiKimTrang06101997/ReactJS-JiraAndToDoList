@@ -10,7 +10,8 @@ if(localStorage.getItem(USER_LOGIN)) {
 
 const stateDefault = {
     userLogin : UserLogin,
-    userSearch: []
+    userSearch: [],
+    arrUser: []   // Array User cho thẻ Select Create Task
 }
 
 export const UserLoginCyberBugsReducer = (state = stateDefault, action) => {

@@ -7,7 +7,7 @@ const initialState = {
         "categoryId": "1"
     },
     projectDetail: {
-
+        
     }
 }
 

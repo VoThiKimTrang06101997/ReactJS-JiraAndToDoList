@@ -48,7 +48,7 @@ export function* theoDoiSignIn() {
   yield takeLatest(USER_SIGNIN_API, signinSaga);
 }
 
-// Lấy thông tin members
+// Lấy thông tin người dùng members
 function* getUserSaga(action) {
   // Gọi API
   try {
