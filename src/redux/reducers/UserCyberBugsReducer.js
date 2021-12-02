@@ -1,5 +1,6 @@
 import { USER_LOGIN } from "../../util/constants/settingSystem";
 import { USLOGIN } from "../constants/CyberBugs/Cyberbugs";
+import { GET_USER_BY_PROJECT_ID} from "../constants/CyberBugs/UserConstant";
 
 let UserLogin = {};
 
@@ -23,6 +24,9 @@ export const UserLoginCyberBugsReducer = (state = stateDefault, action) => {
         case "GET_USER_SEARCH": {
             state.userSearch = action.listUserSearch;
             return {...state}
+        }
+        case GET_USER_BY_PROJECT_ID: {
+            return {...state, arrUser: action.arrUser}
         }
         default: return {...state}
     }
