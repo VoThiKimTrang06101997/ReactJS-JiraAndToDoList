@@ -22,7 +22,8 @@ import { CyberbugsTemplate } from "./templates/HomeTemplate/CyberbugsTemplate";
 import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
 import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManagement";
 import DrawerCyberbugs from "./HOC/CyberbugsHOC/DrawerCyberbugs";
-import IndexCyberBugs from "./redux/saga/CyberBugs/indexCyberBugs";
+import IndexCyberBugs from "./pages/CyberBugs/ProjectDetail/indexCyberBugs";
+
 
 
 function App() {

@@ -8,35 +8,46 @@ export default function ContentMain(props) {
   const renderCardTaskList = () => {
     return projectDetail.lstTask?.map((taskListDetail, index) => {
       return (
-        <div key={index} className="card" style={{ width: "17rem", height: "25rem" }}>
-          <div className="card-header text-danger">{taskListDetail.statusName}</div>
+        <div
+          key={index}
+          className="card pb-2"
+          style={{ width: "17rem", height: "auto" }}
+        >
+          <div className="card-header text-danger font-weight-bold">
+            {taskListDetail.statusName}
+          </div>
           <ul className="list-group list-group-flush">
-            <li
-              className="list-group-item"
-              data-toggle="modal"
-              data-target="#infoModal"
-              style={{ cursor: "pointer" }}
-            >
-              <p>
-                Each issue has a single reporter but can have multiple assignees
-              </p>
-              <div className="block" style={{ display: "flex" }}>
-                <div className="block-left">
-                  <i className="fa fa-bookmark" />
-                  <i className="fa fa-arrow-up" />
-                </div>
-                <div className="block-right">
-                  <div className="avatar-group" style={{ display: "flex" }}>
-                    <div className="avatar">
-                      <img src={Img1} alt="" />
+            {taskListDetail.lstTaskDeTail?.map((task, index) => {
+              return (
+                <li
+                  key={index}
+                  className="list-group-item"
+                  data-toggle="modal"
+                  data-target="#infoModal"
+                  style={{ cursor: "pointer" }}
+                >
+                  <p className="font-weight-bold">{task.taskName}</p>
+                  <div className="block" style={{ display: "flex" }}>
+                    <div className="block-left">
+                       <p className="text-warning font-weight-bold">{task.priorityTask.priority}</p> 
+                      {/* <i className="fa fa-bookmark" />
+                      <i className="fa fa-arrow-up" /> */}
                     </div>
-                    <div className="avatar">
-                      <img src={Img2} alt="" />
+                    <div className="block-right">
+                      <div className="avatar-group" style={{ display: "flex" }}>
+                        {task.assigness.map((mem, index) => {
+                          return (
+                            <div className="avatar" key={index}>
+                              <img src={mem.avatar} alt={mem.avatar} />
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </li>
+                </li>
+              );
+            })}
           </ul>
         </div>
       );
@@ -45,13 +56,13 @@ export default function ContentMain(props) {
 
   return (
     <div className="content" style={{ display: "flex" }}>
-     {renderCardTaskList()}
+      {renderCardTaskList()}
     </div>
   );
 }
 
-
-{/* <div className="card" style={{ width: "17rem", height: "25rem" }}>
+{
+  /* <div className="card" style={{ width: "17rem", height: "25rem" }}>
 <div className="card-header">SELECTED FOR DEVELOPMENT 2</div>
 <ul className="list-group list-group-flush">
   <li className="list-group-item">Cras justo odio</li>
@@ -72,4 +83,5 @@ export default function ContentMain(props) {
   <li className="list-group-item">Dapibus ac facilisis in</li>
   <li className="list-group-item">Vestibulum at eros</li>
 </ul>
-</div> */}
+</div> */
+}
