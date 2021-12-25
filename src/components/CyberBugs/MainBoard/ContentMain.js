@@ -1,9 +1,12 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import Img1 from "../../../assets/img/download (1).png";
 import Img2 from "../../../assets/img/download (2).png";
+import { GET_TASK_DETAIL_SAGA } from "../../../redux/constants/CyberBugs/TaskConstant";
 
 export default function ContentMain(props) {
   const { projectDetail } = props;
+  const dispatch = useDispatch();
 
   const renderCardTaskList = () => {
     return projectDetail.lstTask?.map((taskListDetail, index) => {
@@ -25,6 +28,9 @@ export default function ContentMain(props) {
                   data-toggle="modal"
                   data-target="#infoModal"
                   style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    dispatch({type: GET_TASK_DETAIL_SAGA, taskId: task.taskId})
+                  }}
                 >
                   <p className="font-weight-bold">{task.taskName}</p>
                   <div className="block" style={{ display: "flex" }}>
