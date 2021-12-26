@@ -7,20 +7,30 @@ import { GET_ALL_STATUS_SAGA } from "../../../redux/constants/CyberBugs/StatusCo
 import { useDispatch } from "react-redux";
 import { GET_ALL_PRIORITY_SAGA } from "../../../redux/constants/CyberBugs/PriorityConstant";
 import {
+  CHANGE_ASSIGNESS,
   CHANGE_TASK_MODAL,
+  HANDLE_CHANGE_POST_API_SAGA,
+  REMOVE_USER_ASSIGN,
   UPDATE_STATUS_TASK_SAGA,
 } from "../../../redux/constants/CyberBugs/TaskConstant";
 import { GET_ALL_TASK_TYPE_SAGA } from "../../../redux/constants/CyberBugs/TaskTypeConstant";
 import { Editor } from "@tinymce/tinymce-react";
 import { useState } from "react";
+import { Select } from 'antd';
+
+const { Option } = Select;
 
 export default function ModalCyberBugs(props) {
   const { taskDetailModal } = useSelector((state) => state.TaskReducer);
   const { arrStatus } = useSelector((state) => state.StatusReducer);
   const { arrPriority } = useSelector((state) => state.PriorityReducer);
   const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
+  const { projectDetail } = useSelector((state) => state.ProjectReducer);
+
   const [visibleEditor, setVisibleEditor] = useState(false);
-  const [historyContent, setHistoryContent] = useState(taskDetailModal.description);
+  const [historyContent, setHistoryContent] = useState(
+    taskDetailModal.description
+  );
   const [content, setContent] = useState(taskDetailModal.description);
 
   const dispatch = useDispatch();
@@ -63,23 +73,45 @@ export default function ModalCyberBugs(props) {
               }}
             />
 
-            <button className="btn btn-primary m-2" onClick={() => {
-              dispatch({
-                type: CHANGE_TASK_MODAL,
-                name: "description",
-                value: content
-              })
-              setVisibleEditor(false);
-            }}>Save</button>
+            <button
+              className="btn btn-primary m-2"
+              onClick={() => {
+                dispatch({
+                  type: HANDLE_CHANGE_POST_API_SAGA,
+                  actionType: CHANGE_TASK_MODAL,
+                  name: "description",
+                  value: content,
+                })
+                // dispatch({
+                //   type: CHANGE_TASK_MODAL,
+                //   name: "description",
+                //   value: content,
+                // });
+                setVisibleEditor(false);
+              }}
+            >
+              Save
+            </button>
 
-            <button className="btn btn-primary m-2" onClick={() => {
-              dispatch({
-                type: CHANGE_TASK_MODAL,
-                name: "description",
-                value: historyContent
-              })
-              setVisibleEditor(false)
-            }}>Close</button>
+            <button
+              className="btn btn-primary m-2"
+              onClick={() => {
+                dispatch({
+                  type: HANDLE_CHANGE_POST_API_SAGA,
+                  actionType: CHANGE_TASK_MODAL,
+                  name: "description",
+                  value: historyContent,
+                })
+                // dispatch({
+                //   type: CHANGE_TASK_MODAL,
+                //   name: "description",
+                //   value: historyContent,
+                // });
+                setVisibleEditor(false);
+              }}
+            >
+              Close
+            </button>
           </div>
         ) : (
           <div
@@ -97,7 +129,14 @@ export default function ModalCyberBugs(props) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    dispatch({ type: CHANGE_TASK_MODAL, name, value });
+    dispatch({
+      type: HANDLE_CHANGE_POST_API_SAGA,
+      actionType: CHANGE_TASK_MODAL,
+      name,
+      value
+    })
+
+    // dispatch({ type: CHANGE_TASK_MODAL, name, value });
   };
 
   const renderTimeTracking = () => {
@@ -382,39 +421,80 @@ export default function ModalCyberBugs(props) {
 
                     <div className="assignees">
                       <h6>ASSIGNEES</h6>
-                      <div style={{ display: "flex" }}>
+                      <div className="row">
                         {taskDetailModal.assigness.map((user, index) => {
                           return (
-                            <div
-                              key={index}
-                              style={{ display: "flex" }}
-                              className="item"
-                            >
-                              <div className="avatar">
-                                <img src={user.avatar} alt={user.avatar} />
+                            <div className="col-6 mt-2 mb-2">
+                              <div
+                                key={index}
+                                style={{ display: "flex" }}
+                                className="item"
+                              >
+                                <div className="avatar">
+                                  <img src={user.avatar} alt={user.avatar} />
+                                </div>
+                                <p className="name mt-1 ml-1">
+                                  {user.name}
+                                  <i
+                                    className="fa fa-times"
+                                    style={{ marginLeft: 5, cursor: "pointer"}}
+                                    onClick={() => {
+                                      dispatch({
+                                        type: HANDLE_CHANGE_POST_API_SAGA,
+                                        actionType: REMOVE_USER_ASSIGN,
+                                        userId: user.id
+                                      })
+                                      // dispatch({
+                                      //   type: REMOVE_USER_ASSIGN,
+                                      //   userId: user.id
+                                      // })
+                                    }}
+                                  />
+                                </p>
                               </div>
-                              <p className="name mt-1 ml-1">
-                                {user.name}
-                                <i
-                                  className="fa fa-times"
-                                  style={{ marginLeft: 5 }}
-                                />
-                              </p>
                             </div>
                           );
                         })}
 
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          <i
+                        <div className="col-6 mt-2 mb-2">
+                          {/* <i
                             className="fa fa-plus"
                             style={{ marginRight: 5 }}
                           />
-                          <span>Add more</span>
+                          <span>Add more</span> */}
+
+                          <Select
+                            options=  {projectDetail.members?.filter(mem=>{
+                              let index = taskDetailModal.assigness?.findIndex(us => us.id === mem.userId);
+                              if(index !== -1) {
+                                return false;
+                              }
+                              return true;
+                            }).map((mem, index) => {
+                              return (
+                                {value: mem.userId, label: mem.name}
+                                // <option key={index} value={mem.userId}>{mem.name}</option>
+                              );
+                            })}
+                            optionFilterProp="label" value="+ Add More"
+                           style={{width: "100%"}} name="listUser" className="form-control" onSelect={(value) => {
+                            if(value == "0") {
+                              return;
+                            }
+                            let userSelected = projectDetail.members.find(mem => mem.userId == value);
+                            userSelected = {...userSelected, id: userSelected.userId};
+                            // Dispatch Reducer
+                            dispatch({
+                              type: HANDLE_CHANGE_POST_API_SAGA,
+                              actionType: CHANGE_ASSIGNESS,
+                              userSelected
+                            })
+                            // dispatch({
+                            //   type: CHANGE_ASSIGNESS,
+                            //   userSelected
+                            // })
+                          }}>
+                          </Select>
                         </div>
                       </div>
                     </div>
