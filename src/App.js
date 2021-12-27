@@ -23,6 +23,8 @@ import CreateProject from "./pages/CyberBugs/CreateProject/CreateProject";
 import ProjectManagement from "./pages/CyberBugs/ProjectManagement/ProjectManagement";
 import DrawerCyberbugs from "./HOC/CyberbugsHOC/DrawerCyberbugs";
 import IndexCyberBugs from "./pages/CyberBugs/ProjectDetail/indexCyberBugs";
+import DemoDragDrop from "./pages/DemoDragDrop/DemoDragDrop";
+import DragAndDropDND from "./pages/DragAndDropDND/DragAndDropDND";
 
 
 
@@ -48,6 +50,9 @@ function App() {
         <HomeTemplate exact path="/home" Component={Home}/>
         <HomeTemplate exact path="/contact" Component={Contact} />
         <HomeTemplate exact path="/about" Component={About} />
+        <HomeTemplate exact path="/dragdrop" Component={DemoDragDrop} />
+        <HomeTemplate exact path="/dragdropdnd" Component={DragAndDropDND} />
+
         <UserLoginTemplate exact path="/login" Component={LoginCyberBugs} />
         <HomeTemplate exact path="/detail/:id" Component={Detail} />
         <HomeTemplate exact path="/profile" Component={Profile} />

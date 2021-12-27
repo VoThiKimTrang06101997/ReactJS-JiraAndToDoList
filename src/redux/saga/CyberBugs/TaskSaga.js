@@ -65,7 +65,7 @@ export function* theoDoiGetTaskDetailSaga(action) {
   yield takeLatest(GET_TASK_DETAIL_SAGA, getTaskDetailSaga);
 }
 
-// Update Task
+// Update Status Saga
 function* updateTaskStatusSaga(action) {
   const { taskUpdateStatus } = action;
   try {

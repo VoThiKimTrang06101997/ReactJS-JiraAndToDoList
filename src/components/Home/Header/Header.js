@@ -38,6 +38,10 @@ export default function Header() {
                         <NavLink class="dropdown-item" to="/todolistredux">To Do List Redux</NavLink>
                         <br />
                         <NavLink class="dropdown-item" to="/todolistsaga">To Do List Saga</NavLink>
+                        <br />
+                        <NavLink class="dropdown-item" to="/dragdrop">DemoDragDrop</NavLink>
+                        <br />
+                        <NavLink class="dropdown-item" to="/dragdropdnd">Demo DragAndDrop DND</NavLink>
                     </div>
                 </li>
             </ul>
